@@ -1,15 +1,22 @@
 class Shell
 
   def initialize(@cmd : String,
+                 @args : Array(String)? = nil,
                  @stdout : Process::Stdio = IO::Memory.new,
                  @stderr : Process::Stdio = IO::Memory.new,
+                 @stdin : Process::Stdio = false,
+                 @chdir : String? = nil,
+                 @env : Process::Env = nil,
+                 @clear_env : Bool = false,
                  @fail_on_error : Bool = true
                 )
-    @status = 0
-
+    @status = Process::Status.new(0)
   end
 
-  # getter :stderr
+  getter cmd
+  getter status
+  property? fail_on_error
+  delegate exit_code, success?, to: @status
 
   def stdout
     @stdout.to_s
@@ -17,14 +24,6 @@ class Shell
 
   def stderr
     @stderr.to_s
-  end
-
-  def fail_on_error? : Bool
-    @fail_on_error
-  end
-
-  def success? : Bool
-    @status == 0
   end
 
   def failed? : Bool
@@ -36,25 +35,26 @@ class Shell
   end
 
   def fail
-    raise "Shell command failed (status: #{@status}) with an error: \n" + @stderr.to_s
+    raise "Shell command failed (status: #{exit_code}) with an error: \n" + stderr
   end
 
   def run() : String
     @status = Process.run(@cmd,
+                          args: @args,
+                          env: @env,
+                          clear_env: @clear_env,
                           shell: true,
+                          input: @stdin,
                           output: @stdout,
-                          error: @stderr)
-              .exit_code
+                          error: @stderr,
+                          chdir: @chdir)
 
     fail if should_fail?
 
     stdout
   end
 
-  def self.run( cmd , fail_on_error = true ) : String
-    new(cmd, fail_on_error: fail_on_error).run
+  macro run(*args, **options)
+    Shell.new({{*args}}, {{**options}}).run
   end
-
-
-
 end
