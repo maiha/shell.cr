@@ -58,3 +58,5 @@ class Shell
     Shell.new({{*args}}, {{**options}}).run
   end
 end
+
+require "./shell/*"
