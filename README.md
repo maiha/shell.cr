@@ -22,6 +22,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   shell:
     github: maiha/shell.cr
+    version: 0.2.0
 ```
 
 
