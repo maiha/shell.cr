@@ -60,7 +60,7 @@ Spec2.describe "Shell" do
         end
 
         context "bad argument" do
-          let (command) { "ls nonexistfile" }
+          let (command) { "LC_ALL=C ls nonexistfile" }
 
           it "does not fail" {
             expect{subject.run}.not_to raise_error Exception
