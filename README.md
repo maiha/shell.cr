@@ -1,7 +1,3 @@
-Provisional fork until the original restarts: https://github.com/dmytro/shell.cr
-- CHANGES: support crystal-0.21, added `Shell::Seq`
-- (breaking-change): respect `Process` attributes like `chdir`, type of `status`
-
 # shell [![Build Status](https://travis-ci.org/maiha/shell.cr.svg?branch=master)](https://travis-ci.org/maiha/shell.cr)
 
 Small simplistic helper class for executing shell commands in Crystal:
@@ -22,7 +18,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   shell:
     github: maiha/shell.cr
-    version: 0.2.0
+    version: 0.2.1
 ```
 
 
