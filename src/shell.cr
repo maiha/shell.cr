@@ -4,7 +4,7 @@ class Shell
                  @args : Array(String)? = nil,
                  @stdout : Process::Stdio = IO::Memory.new,
                  @stderr : Process::Stdio = IO::Memory.new,
-                 @stdin : Process::Stdio = false,
+                 @stdin : Process::Stdio = Process::Redirect::Close,
                  @chdir : String? = nil,
                  @env : Process::Env = nil,
                  @clear_env : Bool = false,

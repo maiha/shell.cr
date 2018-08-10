@@ -42,7 +42,7 @@ Spec2.describe "Shell" do
         subject { Shell.new(command, fail_on_error: false) }
 
         context "bad command" do
-          let (command) { "nonexistecommand" }
+          let(command) { "nonexistecommand" }
           it "does not fail" {
             expect{subject.run}.not_to raise_error Exception
           }
@@ -60,7 +60,7 @@ Spec2.describe "Shell" do
         end
 
         context "bad argument" do
-          let (command) { "LC_ALL=C ls nonexistfile" }
+          let(command) { "LC_ALL=C ls nonexistfile" }
 
           it "does not fail" {
             expect{subject.run}.not_to raise_error Exception

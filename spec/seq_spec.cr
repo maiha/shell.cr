@@ -48,7 +48,7 @@ describe Shell::Seq do
     describe "#run!" do
       it "abort immediately" do
         shell = Shell::Seq.new
-        expect_raises do
+        expect_raises(Exception) do
           shell.run!("xxxxx")          # failed
         end
       end
