@@ -90,6 +90,17 @@ describe Shell::Seq do
     end
   end
 
+  describe "(dryrun)" do
+    it "stores the commands as manifest without executing them" do
+      shell = Shell::Seq.new
+      shell.dryrun = true
+      shell.run("abc")
+      shell.run("ls")
+      shell.success?.should be_true
+      shell.manifest.should eq("abc\nls\n")
+    end
+  end
+
   describe "(instance creation)" do
     describe ".run" do
       it "execute the command and return Shell::Seq instance" do

@@ -8,12 +8,14 @@ class Shell::Seq
   delegate exit_code, success?, to: @status
 
   property? abort_on_error
+  property? dryrun : Bool = false
   
   def initialize(@stdout : IO = IO::Memory.new,
                  @stderr : IO = IO::Memory.new,
                  @abort_on_error = false)
-    @shells = [] of Shell
-    @status = Process::Status.new(0)
+    @shells   = [] of Shell
+    @status   = Process::Status.new(0)
+    @manifest = IO::Memory.new
   end
 
   def run(*args, **options)
@@ -21,7 +23,11 @@ class Shell::Seq
 
     @shells << (shell = Shell.new(*args, **options))
     shell.fail_on_error = abort_on_error?
-    shell.run
+    if dryrun?
+      @manifest.puts shell.cmd
+    else
+      shell.run
+    end
     @status = shell.status
     @stdout.print shell.stdout
     @stderr.print shell.stderr
@@ -44,7 +50,11 @@ class Shell::Seq
   def match!(r : Regex)
     stdout.match(r) || raise MatchError.new("MatchError: '%s'\n%s" % [r.source, log])
   end
-  
+
+  def manifest
+    @manifest.to_s
+  end
+
   def log : String
     String.build do |s|
       each do |shell|
