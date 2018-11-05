@@ -2,8 +2,15 @@ class Shell::Seq
   class MatchError < Exception; end
   
   include Indexable(Shell)
-  delegate size, unsafe_at, to: @shells
 
+  {% if Crystal::VERSION =~ /^0\.(\d|1\d|2[0-6])\./ %}
+    # 0.26.x or lower
+    delegate size, unsafe_at, to: @shells
+  {% else %}
+    # 0.27.x or higher
+    delegate size, unsafe_fetch, to: @shells
+  {% end %}
+  
   getter status
   delegate exit_code, success?, to: @status
 
