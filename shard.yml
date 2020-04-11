@@ -9,4 +9,3 @@ license: MIT
 development_dependencies:
   spec2:
     github: maiha/spec2.cr
-    branch: crystal-0.24
