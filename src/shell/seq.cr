@@ -65,7 +65,7 @@ class Shell::Seq
   def log : String
     String.build do |s|
       each do |shell|
-        s.puts "% #{shell.cmd}"
+        s.puts "$ #{shell.cmd}"
         s << shell.stdout
         s << shell.stderr
       end
@@ -74,7 +74,11 @@ class Shell::Seq
 end
 
 class Shell::Seq
-  def self.run(*args, **options)
+  def self.run(*args, **options) : Shell::Seq
     new.tap(&.run(*args, **options))
+  end
+
+  def self.run!(*args, **options) : Shell::Seq
+    new.tap(&.run!(*args, **options))
   end
 end

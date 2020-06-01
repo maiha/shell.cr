@@ -114,5 +114,19 @@ describe Shell::Seq do
         shell.should be_a(Shell::Seq)
       end
     end
+
+    describe ".run!" do
+      it "execute the command and return Shell::Seq instance" do
+        shell = Shell::Seq.run("echo a")
+        shell.should be_a(Shell::Seq)
+        shell.stdout.should eq("a\n")
+      end
+
+      it "raises error" do
+        expect_raises(Exception, /xxxxx/) do
+          Shell::Seq.run!("xxxxx")
+        end
+      end
+    end
   end
 end
