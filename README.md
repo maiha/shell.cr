@@ -18,7 +18,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   shell:
     github: maiha/shell.cr
-    version: 0.4.1
+    version: 0.4.2
 ```
 
 
